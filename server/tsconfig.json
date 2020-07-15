@@ -1,6 +1,30 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "commonjs",
     "esModuleInterop": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
     "resolveJsonModule": true,
-  }
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES3",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
+    "lib": [
+      "es2018",
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+    }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
 }

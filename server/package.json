@@ -21,6 +21,7 @@
     "typescript": "^3.9.6"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.7.31"
+    "@types/mongoose": "^5.7.31",
+    "tslib": "^2.0.0"
   }
 }

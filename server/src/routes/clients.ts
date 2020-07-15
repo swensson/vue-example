@@ -1,21 +1,24 @@
 import express from 'express'
 
 import { routeHandler } from '../libs/utils'
+import clients from '../services/clients'
 
 const router = express.Router()
-
-/**
- * Create a client
- */
-router.post('/', routeHandler(async (req, res) => {
-
-}))
 
 /**
  * Get all clients
  */
 router.get('/', routeHandler(async (req, res) => {
+  res.json(clients.all())
+}))
 
+/**
+ * Create a client
+ */
+router.post('/', routeHandler(async (req, res) => {
+  const { name, email, phone } = req.body
+
+  res.json(clients.create(name, email, phone))
 }))
 
 /**

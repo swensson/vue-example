@@ -3,16 +3,23 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
+import bodyParser from 'body-parser'
 import swaggerUI from 'swagger-ui-express'
 import swaggerDoc from '../swagger.json'
 
+import clients from './routes/clients'
+
 const app = express()
+
+app.use(bodyParser.json())
 
 app.get('/health', (req, res) => {
   res.sendStatus(200)
 })
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
+
+app.use('/clients', clients)
 
 /**
  * Simple error middleware

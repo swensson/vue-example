@@ -1,0 +1,20 @@
+{
+  "name": "vue-example",
+  "version": "1.0.0",
+  "description": "an example project using vue",
+  "main": "",
+  "scripts": {
+    "up": "source .env && docker-compose up",
+    "down": "docker-compose down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcfinley/vue-example.git"
+  },
+  "author": "mcfinley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcfinley/vue-example/issues"
+  },
+  "homepage": "https://github.com/mcfinley/vue-example#readme"
+}

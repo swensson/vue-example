@@ -3,12 +3,16 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
+import swaggerUI from 'swagger-ui-express'
+import swaggerDoc from '../swagger.json'
 
 const app = express()
 
 app.get('/health', (req, res) => {
   res.sendStatus(200)
 })
+
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 
 /**
  * Simple error middleware

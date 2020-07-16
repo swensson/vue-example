@@ -5,6 +5,7 @@ dotenv.config()
 const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 /* Check if we're in client folder or somewhere above */
 const ROOT = process.cwd()
@@ -23,19 +24,21 @@ module.exports = {
       '@': SRC,
     },
     extensions: [
-      '.js', '.json'
+      '.js', '.json', '.vue'
     ],
   },
 
   module: {
     rules: [
       { test: /\.jsx?$/, loader: 'babel-loader' },
+      { test: /\.vue?$/, loader: 'vue-loader' },
       { test: /\.css?$/, loader: ['style-loader', 'css-loader'] },
       { test: /\.(woff|eot|svg|png|woff2|ttf|mp3|wav)$/, loader: 'file-loader' },
     ],
   },
 
   plugins: [
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.html',
       chunksSortMode: 'none',

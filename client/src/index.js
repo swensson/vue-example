@@ -7,6 +7,10 @@ import store from './store'
 import App from './App'
 import ClientsPage from './components/pages/ClientsPage'
 
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
+Vue.use(Buefy)
 Vue.use(Vuex)
 Vue.use(VueRouter)
 

@@ -25,7 +25,7 @@ app.use('/clients', clients)
  * Simple error middleware
  */
 app.use((err, req, res, next) => {
-  if (!!err.code) {
+  if (!!err.code && err.code > 0 && err.code < 600) {
     res.status(err.code).send(err.toString())
   } else {
     res.status(500).send(err.toString())

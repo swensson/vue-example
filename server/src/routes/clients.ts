@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { routeHandler } from '../libs/utils'
+import { routeHandler, HttpError } from '../libs/utils'
 import clients from '../services/clients'
 
 const router = express.Router()
@@ -9,7 +9,10 @@ const router = express.Router()
  * Get all clients
  */
 router.get('/', routeHandler(async (req, res) => {
-  res.json(clients.all())
+  if (process.env.NODE_ENV !== 'development') {
+    throw new HttpError(404)
+  }
+  res.json(await clients.all())
 }))
 
 /**
@@ -18,7 +21,7 @@ router.get('/', routeHandler(async (req, res) => {
 router.post('/', routeHandler(async (req, res) => {
   const { name, email, phone } = req.body
 
-  res.json(clients.create(name, email, phone))
+  res.json(await clients.create(name, email, phone))
 }))
 
 /**

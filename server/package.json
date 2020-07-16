@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx ts-node src/index.ts",
+    "start": "NODE_ENV=production npx tsc && node dist/src/index.js",
+    "dev": "NODE_ENV=development npx ts-node src/index.ts",
     "postinstall": "[[ -f ../.env ]] && cp ../.env .env || true"
   },
   "author": "",

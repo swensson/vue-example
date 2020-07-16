@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 
 import store from './store'
 
-import App from './components/App'
+import App from './App'
 import ClientsPage from './components/pages/ClientsPage'
 
 Vue.use(Vuex)
@@ -22,6 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     el: '#app',
     components: { App, ClientsPage },
     render: h => h(App),
-    store: store(),
+    store: store,
   })
 })

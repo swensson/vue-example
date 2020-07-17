@@ -16,6 +16,7 @@
       :destroy-on-hide="false"
     >
       <client-form
+        buttonLabel="Create"
         title="Create Client"
         :client="client"
         :providers="providers"

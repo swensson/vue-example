@@ -54,9 +54,7 @@
         const checked = this.isChecked(id)
 
         if (checked) {
-          const index = _.findIndex(this.value, id)
-
-          this.value.splice(index, 1)
+          this.value.splice(this.value.indexOf(id), 1)
         } else {
           this.value.push(id)
         }

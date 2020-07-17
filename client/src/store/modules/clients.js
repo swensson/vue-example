@@ -9,6 +9,8 @@ export const CREATE_PROVIDER = `${domain}/CREATE_PROVIDER`
 export const REMOVE_PROVIDER = `${domain}/REMOVE_PROVIDER`
 export const RENAME_PROVIDER = `${domain}/RENAME_PROVIDER`
 export const CREATE_CLIENT = `${domain}/CREATE_CLIENT`
+export const REMOVE_CLIENT = `${domain}/REMOVE_CLIENT`
+export const UPDATE_CLIENT = `${domain}/UPDATE_CLIENT`
 
 export const GET_CLIENTS = `${domain}/GET_CLIENTS`
 export const GET_PROVIDERS = `${domain}/GET_PROVIDERS`
@@ -40,11 +42,7 @@ export default {
     [FETCH_CLIENTS]: ({ commit }, payload) => {
       commit('setClients', { loading: true })
       api.getClients().then((clients) => {
-        const mappedClients = clients.map((client) => ({
-          ...client, providers: client.providers.map(({ name }) => name).join(', ') || '(none)'
-        }))
-
-        commit('setClients', { loading: false, value: mappedClients })
+        commit('setClients', { loading: false, value: clients })
       }).catch((err) => {
         Notification.open({
           position: 'is-bottom-right',
@@ -75,6 +73,46 @@ export default {
           position: 'is-bottom-right',
           type: 'is-danger',
           message: 'Failed to create a client'
+        })
+
+        commit('setClients', { loading: false })
+      }
+    },
+
+    /**
+     *
+     */
+    [UPDATE_CLIENT]: async ({ commit, dispatch }, { id, body }) => {
+      commit('setClients', { loading: true })
+      try {
+        await api.updateClient(id, body)
+        dispatch(FETCH_CLIENTS)
+      } catch (e) {
+        console.error(e)
+        Notification.open({
+          position: 'is-bottom-right',
+          type: 'is-danger',
+          message: 'Failed to update a client'
+        })
+
+        commit('setClients', { loading: false })
+      }
+    },
+
+    /**
+     * Remove client action
+     */
+    [REMOVE_CLIENT]: async ({ commit, dispatch }, id) => {
+      commit('setClients', { loading: true })
+      try {
+        await api.removeClient(id)
+        dispatch(FETCH_CLIENTS)
+      } catch (e) {
+        console.error(e)
+        Notification.open({
+          position: 'is-bottom-right',
+          type: 'is-danger',
+          message: 'Failed to remove a client'
         })
 
         commit('setClients', { loading: false })

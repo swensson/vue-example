@@ -14,5 +14,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
     depends_on:
       - mongo

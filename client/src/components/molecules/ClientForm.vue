@@ -48,7 +48,7 @@
 
     <footer class="modal-card-foot">
       <button class="button" type="button" @click="$emit('close')">Close</button>
-      <button class="button is-primary" @click="submit">Login</button>
+      <button class="button is-primary" @click="submit">{{buttonLabel}}</button>
     </footer>
   </div>
 </template>
@@ -74,7 +74,7 @@
     },
 
     props: [
-      'title', 'providers', 'client'
+      'title', 'providers', 'client', 'buttonLabel'
     ],
 
     methods: {
@@ -90,7 +90,6 @@
 
       /* Validation stuff */
       getType (field) {
-        console.log(this.validation)
         return !!this.validation[field] ? 'is-danger' : null
       },
       getMessage (field) {

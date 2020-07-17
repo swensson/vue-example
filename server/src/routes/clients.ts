@@ -12,10 +12,6 @@ const emailInUseValidator = async (email) => (await clients.emailBusy(email) ? P
  * Get all clients
  */
 router.get('/', routeHandler(async (req, res) => {
-  if (process.env.NODE_ENV !== 'development') {
-    throw new HttpError(404)
-  }
-
   res.json(await clients.all())
 }))
 
@@ -56,7 +52,7 @@ router.get('/:clientId', routeHandler(async (req, res) => {
 router.patch('/:clientId', [
   body('name').optional().isString().isLength({ min: 5 }),
   body('phone').optional().isString().isLength({ min: 5}),
-  body('email').optional().isEmail().custom(emailInUseValidator),
+  body('email').optional().isEmail(),
 ], routeHandler(async (req, res) => {
   await clients.patch(req.params.clientId, req.body)
 

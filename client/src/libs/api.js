@@ -10,6 +10,8 @@ instance.interceptors.response.use((response) => response.data)
 export default {
   getClients: () => instance.get('/clients'),
   createClient: (body) => instance.post('/clients', body),
+  updateClient: (id, body) => instance.patch(`/clients/${id}`, body),
+  removeClient: (id) => instance.delete(`/clients/${id}`),
   attachProvider: (clientId, providerId) => instance.post(`/clients/${clientId}/providers/${providerId}`),
 
   getProviders: () => instance.get('/providers'),

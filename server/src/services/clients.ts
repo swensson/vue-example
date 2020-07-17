@@ -55,4 +55,11 @@ export default {
   detachProvider: async (clientId: string, providerId: string) => {
     return await Client.findOneAndUpdate({ _id: clientId }, { $pull: { providers: providerId } }, { new: true })
   },
+
+  /**
+   * Check whether an email is taken
+   */
+  emailBusy: async (email: string) => {
+    return Client.find({ email }).exec().then((clients) => clients.length > 0)
+  },
 }

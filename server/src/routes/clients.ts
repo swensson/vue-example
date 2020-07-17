@@ -1,9 +1,12 @@
 import express from 'express'
+import { body, validationResult } from 'express-validator'
 
 import { routeHandler, HttpError } from '../libs/utils'
 import clients from '../services/clients'
 
 const router = express.Router()
+
+const emailInUseValidator = async (email) => (await clients.emailBusy(email) ? Promise.reject('Email in use') : Promise.resolve())
 
 /**
  * Get all clients
@@ -19,8 +22,17 @@ router.get('/', routeHandler(async (req, res) => {
 /**
  * Create a client
  */
-router.post('/', routeHandler(async (req, res) => {
+router.post('/', [
+  body('name').exists().isString(),
+  body('phone').exists().isString().isLength({ min: 5}),
+  body('email').exists().isEmail().custom(emailInUseValidator),
+], routeHandler(async (req, res) => {
   const { name, email, phone } = req.body
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
 
   res.json(await clients.create(name, email, phone))
 }))
@@ -41,8 +53,17 @@ router.get('/:clientId', routeHandler(async (req, res) => {
 /**
  * Update a client
  */
-router.patch('/:clientId', routeHandler(async (req, res) => {
+router.patch('/:clientId', [
+  body('name').optional().isString().isLength({ min: 5 }),
+  body('phone').optional().isString().isLength({ min: 5}),
+  body('email').optional().isEmail().custom(emailInUseValidator),
+], routeHandler(async (req, res) => {
   await clients.patch(req.params.clientId, req.body)
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
 
   res.json(await clients.get(req.params.clientId))
 }))

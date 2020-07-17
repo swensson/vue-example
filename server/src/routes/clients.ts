@@ -12,6 +12,7 @@ router.get('/', routeHandler(async (req, res) => {
   if (process.env.NODE_ENV !== 'development') {
     throw new HttpError(404)
   }
+
   res.json(await clients.all())
 }))
 
@@ -28,21 +29,31 @@ router.post('/', routeHandler(async (req, res) => {
  * Get one client
  */
 router.get('/:clientId', routeHandler(async (req, res) => {
+  const client = await clients.get(req.params.clientId)
 
+  if (!client) {
+    throw new HttpError(404)
+  }
+
+  res.json(client)
 }))
 
 /**
  * Update a client
  */
-router.put('/:clientId', routeHandler(async (req, res) => {
+router.patch('/:clientId', routeHandler(async (req, res) => {
+  await clients.patch(req.params.clientId, req.body)
 
+  res.json(await clients.get(req.params.clientId))
 }))
 
 /**
  * Delete a client
  */
 router.delete('/:clientId', routeHandler(async (req, res) => {
+  await clients.delete(req.params.clientId)
 
+  res.sendStatus(200)
 }))
 
 /* Client / Provider relationship */

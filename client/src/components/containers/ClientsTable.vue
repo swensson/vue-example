@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-loading :is-full-page="false" :active.sync="clients.loading"></b-loading>
     <b-table :data="clients.value" :columns="columns"></b-table>
   </div>
 </template>

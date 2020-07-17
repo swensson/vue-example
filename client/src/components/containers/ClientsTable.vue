@@ -11,14 +11,15 @@
 
   export default {
     created() {
-      this.fetchClients()
+      this._fetchClients()
     },
 
     methods: {
       ...mapActions({
-        fetchClients: FETCH_CLIENTS
+        _fetchClients: FETCH_CLIENTS
       }),
     },
+
     computed: {
       ...mapGetters({
         clients: GET_CLIENTS
@@ -28,23 +29,10 @@
     data() {
       return {
         columns: [
-          {
-            field: 'name',
-            label: 'Name',
-          },
-          {
-            field: 'email',
-            label: 'Email',
-          },
-          {
-            field: 'phone',
-            label: 'Phone',
-            centered: true
-          },
-          {
-            field: 'providers',
-            label: 'Providers',
-          }
+          { field: 'name', label: 'Name' },
+          { field: 'email', label: 'Email' },
+          { field: 'phone', label: 'Phone', centered: true },
+          { field: 'providers', label: 'Providers' },
         ]
       }
     }

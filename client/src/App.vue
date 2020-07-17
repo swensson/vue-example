@@ -1,12 +1,16 @@
 <template>
   <div>
-    <!-- Header comes here -->
+    <main-header></main-header>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-  export default {}
+  import MainHeader from '@/components/molecules/MainHeader'
+
+  export default {
+    components: { MainHeader }
+  }
 </script>
 
 <style>

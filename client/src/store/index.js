@@ -3,12 +3,10 @@ import Vuex from 'vuex'
 
 import clients from './modules/clients'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    clients,
-  },
+  modules: { clients },
 })
 
 

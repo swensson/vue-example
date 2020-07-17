@@ -2,17 +2,26 @@
   <div class="providers-input">
     <div class="providers-input__top">
       <b-input v-model="nameToAdd"></b-input>
-      <b-button @click="addProvider" class="providers-input__add">
+      <b-button @click="create" class="providers-input__add">
         Add Provider
       </b-button>
     </div>
 
     <div class="providers-input__bottom">
-      <div class="row" v-for="provider in providers" :key="provider._id">
-        <b-checkbox :value="isChecked(provider._id)" @input="toggle(provider._id)">{{provider.name}}</b-checkbox>
-        <div class="row__controls">
-          <b-button size="is-small">Edit</b-button>
-          <b-button size="is-small" @click="remove(provider._id)">Remove</b-button>
+      <div  v-for="provider in providers" :key="provider._id">
+        <div class="row" v-if="isEditing(provider._id)">
+          <b-input v-model="editingValues[provider._id]"></b-input>
+          <div class="row__controls">
+            <b-button size="is-small" @click="commit(provider._id)">Save</b-button>
+          </div>
+        </div>
+
+        <div class="row" v-if="!isEditing(provider._id)">
+          <b-checkbox :value="isChecked(provider._id)" @input="toggle(provider._id)">{{provider.name}}</b-checkbox>
+          <div class="row__controls">
+            <b-button size="is-small" @click="edit(provider._id)">Edit</b-button>
+            <b-button size="is-small" @click="remove(provider._id)">Remove</b-button>
+          </div>
         </div>
       </div>
       <b-loading :is-full-page="false" :active.sync="loading"></b-loading>
@@ -23,28 +32,22 @@
 <script>
   import _ from 'lodash'
 
-  /**
-   * Accepts
-   *   :providers - list of all providers accessible
-   *   :loading - the loader
-   *   :value - the list of IDs of chosen providers
-   */
   export default {
-    props: ['providers', 'value', 'loading'],
+    props: [
+      'providers', 'value', 'loading'
+    ],
 
     data () {
       return {
-        nameToAdd: ''
+        nameToAdd: '',
+        editing: [],
+        editingValues: {}
       }
     },
 
     methods: {
       isChecked (id) {
         return this.value.includes(id)
-      },
-
-      addProvider () {
-        this.$emit('create', this.nameToAdd)
       },
 
       toggle (id) {
@@ -61,9 +64,31 @@
         this.$emit('input', this.value)
       },
 
+      create () {
+        this.$emit('create', this.nameToAdd)
+      },
+
       remove (id) {
         this.$emit('remove', id)
       },
+
+      /* Edit stuff */
+      edit (id) {
+        this.editing.push(id)
+        this.editingValues[id] = this.providers.filter(({ _id }) => _id === id).pop().name
+      },
+
+      isEditing (id) {
+        return this.editing.includes(id)
+      },
+
+      commit (id) {
+        const index = _.findIndex(this.editing, id)
+        const name = this.editingValues[id]
+
+        this.editing.splice(index, 1)
+        this.$emit('rename', { id, name })
+      }
     },
   }
 </script>

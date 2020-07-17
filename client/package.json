@@ -24,6 +24,7 @@
     "buefy": "^0.8.20",
     "css-loader": "^3.6.0",
     "dotenv": "^8.2.0",
+    "lodash": "^4.17.19",
     "style-loader": "^1.2.1",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",

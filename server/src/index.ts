@@ -8,6 +8,7 @@ import swaggerUI from 'swagger-ui-express'
 import swaggerDoc from '../swagger.json'
 
 import clients from './routes/clients'
+import providers from './routes/providers'
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.get('/health', (req, res) => {
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 
 app.use('/clients', clients)
+app.use('/providers', providers)
 
 /**
  * Simple error middleware

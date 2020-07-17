@@ -62,14 +62,14 @@ router.delete('/:clientId', routeHandler(async (req, res) => {
  * Attach provider to the client
  */
 router.post('/:clientId/providers/:providerId', routeHandler(async (req, res) => {
-
+  res.json(await clients.attachProvider(req.params.clientId, req.params.providerId))
 }))
 
 /**
  * Detach provider off the client
  */
 router.delete('/:clientId/providers/:providerId', routeHandler(async (req, res) => {
-
+  res.json(await clients.detachProvider(req.params.clientId, req.params.providerId))
 }))
 
 export default router

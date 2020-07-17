@@ -14,7 +14,8 @@ export default mongoose.model('Client', new mongoose.Schema({
     type: String,
     required: true,
   },
-  providers: [
-    mongoose.Schema.Types.ObjectId
-  ],
+  providers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Provider'
+  }],
 }, { timestamps: true }))

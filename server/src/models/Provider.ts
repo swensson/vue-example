@@ -5,7 +5,4 @@ export default mongoose.model('Provider', new mongoose.Schema({
     type: String,
     required: true,
   },
-  providers: [
-    mongoose.Schema.Types.ObjectId
-  ],
 }, { timestamps: true }))

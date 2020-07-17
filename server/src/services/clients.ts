@@ -16,7 +16,7 @@ export default {
    * Just retrieve all clients
    */
   all: async () => {
-    const clients = await Client.find({}).exec()
+    const clients = await Client.find({}).populate('providers').exec()
 
     return clients
   },
@@ -25,20 +25,34 @@ export default {
    * Get client by id
    */
   get: async (id: string) => {
-    return await Client.findById(id)
+    return await Client.findById(id).populate('providers')
   },
 
   /**
    * Update a client
    */
   patch: async (id: string, patch: any) => {
-    await Client.updateOne({ _id: id }, patch).exec()
+    return await Client.findOneAndUpdate({ _id: id }, patch, { new: true })
   },
 
   /**
    * Delete a client
    */
   delete: async (id: string) => {
-    await Client.remove({ _id: id })
+    await Client.deleteOne({ _id: id })
+  },
+
+  /**
+   * Attach provider to the client
+   */
+  attachProvider: async (clientId: string, providerId: string) => {
+    return await Client.findOneAndUpdate({ _id: clientId }, { $push: { providers: providerId } }, { new: true })
+  },
+
+  /**
+   * Detach provider from the client
+   */
+  detachProvider: async (clientId: string, providerId: string) => {
+    return await Client.findOneAndUpdate({ _id: clientId }, { $pull: { providers: providerId } }, { new: true })
   },
 }

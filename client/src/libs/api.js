@@ -13,6 +13,7 @@ export default {
   updateClient: (id, body) => instance.patch(`/clients/${id}`, body),
   removeClient: (id) => instance.delete(`/clients/${id}`),
   attachProvider: (clientId, providerId) => instance.post(`/clients/${clientId}/providers/${providerId}`),
+  emailBusy: (email, id) => instance.post(`/clients/emails/check`, { email, id }),
 
   getProviders: () => instance.get('/providers'),
   createProvider: (body) => instance.post('/providers', body),

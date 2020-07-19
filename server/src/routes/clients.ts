@@ -6,7 +6,7 @@ import clients from '../services/clients'
 
 const router = express.Router()
 
-const emailInUseValidator = async (email) => (await clients.emailBusy(email) ? Promise.reject('Email in use') : Promise.resolve())
+const emailInUseValidator = async (email) => ((await clients.getIdByEmail(email)) !== null ? Promise.reject('Email in use') : Promise.resolve())
 
 /**
  * Get all clients
@@ -54,6 +54,14 @@ router.patch('/:clientId', [
   body('phone').optional().isString().isLength({ min: 5}),
   body('email').optional().isEmail(),
 ], routeHandler(async (req, res) => {
+  if (req.body.email) {
+    const id = await clients.getIdByEmail(req.body.email)
+
+    if (id != req.params.clientId) {
+      return res.status(422).json({ errors: ['Email is in Use'] });
+    }
+  }
+
   await clients.patch(req.params.clientId, req.body)
 
   const errors = validationResult(req);
@@ -87,6 +95,18 @@ router.post('/:clientId/providers/:providerId', routeHandler(async (req, res) =>
  */
 router.delete('/:clientId/providers/:providerId', routeHandler(async (req, res) => {
   res.json(await clients.detachProvider(req.params.clientId, req.params.providerId))
+}))
+
+/* Utils endpoints */
+
+router.post(`/emails/check`, routeHandler(async (req, res) => {
+  const { email, id } = req.body
+
+  if (!email) {
+    return res.status(422).json({ errors: ['Email is required'] })
+  }
+
+  res.json((await clients.getIdByEmail(email)) != id)
 }))
 
 export default router

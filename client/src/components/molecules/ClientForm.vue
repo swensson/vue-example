@@ -55,6 +55,7 @@
 
 <script>
   import ProvidersInput from '@/components/inputs/ProvidersInput'
+  import api from '@/libs/api'
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -74,7 +75,7 @@
     },
 
     props: [
-      'title', 'providers', 'client', 'buttonLabel'
+      'title', 'providers', 'client', 'buttonLabel', 'id'
     ],
 
     methods: {
@@ -97,20 +98,27 @@
       },
 
       validate () {
-        this.validation.name =
-          (!this.client.name && 'This field is required') || (this.client.name.length < 5 && 'Too short')
-        this.validation.email =
-          (!this.client.email && 'This field is required') || (!EMAIL_REGEX.test(this.client.email) && 'Incorrect email')
-        this.validation.phone =
-          (!this.client.phone && 'This field is required') || (this.client.phone.length < 5 && 'Too short')
+        return api.emailBusy(this.client.email, this.id).then((busy) => {
+          this.validation.name =
+            (!this.client.name && 'This field is required') || (this.client.name.length < 5 && 'Too short')
+          this.validation.email =
+            (!this.client.email && 'This field is required') || (!EMAIL_REGEX.test(this.client.email) && 'Incorrect email')
+            || (busy && 'Email in use')
+          this.validation.phone =
+            (!this.client.phone && 'This field is required') || (this.client.phone.length < 5 && 'Too short')
 
-        return Object.values(this.validation).filter((v) => !!v).length === 0
+          return Promise.resolve(
+            Object.values(this.validation).filter((v) => !!v).length === 0
+          )
+        })
       },
 
       submit () {
-        if (this.validate()) {
-          this.$emit('submit', this.client)
-        }
+        this.validate().then((result) => {
+          if (result) {
+            this.$emit('submit', this.client)
+          }
+        })
       },
     },
   }

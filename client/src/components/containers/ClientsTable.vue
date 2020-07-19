@@ -30,9 +30,11 @@
     </b-table>
 
     <b-modal
+      v-if="editModalVisible"
       aria-modal
       trap-focus
       has-modal-card
+      @close="closeModal"
       aria-role="dialog"
       :active.sync="editModalVisible"
       :destroy-on-hide="false"
@@ -42,8 +44,9 @@
         buttonLabel="Save"
         :client="client"
         :providers="providers"
+        :id="id"
         @submit="updateClient"
-        @close="editModalVisible = false"
+        @close="closeModal"
         @createProvider="createProvider"
         @removeProvider="removeProvider"
         @renameProvider="renameProvider"
@@ -110,6 +113,10 @@
       },
       updateClient (body) {
         this._updateClient({ id: this.id, body })
+        this.editModalVisible = false
+      },
+      closeModal () {
+        this._fetchClients()
         this.editModalVisible = false
       },
     },

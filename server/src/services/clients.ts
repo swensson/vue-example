@@ -57,9 +57,9 @@ export default {
   },
 
   /**
-   * Check whether an email is taken
+   *
    */
-  emailBusy: async (email: string) => {
-    return Client.find({ email }).exec().then((clients) => clients.length > 0)
+  getIdByEmail: async (email: string) => {
+    return Client.find({ email }).exec().then((clients) => clients.length > 0 ? clients[0]._id : null)
   },
 }

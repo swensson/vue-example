@@ -67,6 +67,11 @@ export default {
         }))
 
         dispatch(FETCH_CLIENTS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl created a client'
+        })
       } catch (e) {
         console.error(e)
         Notification.open({
@@ -87,6 +92,11 @@ export default {
       try {
         await api.updateClient(id, body)
         dispatch(FETCH_CLIENTS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl updated a client'
+        })
       } catch (e) {
         console.error(e)
         Notification.open({
@@ -107,6 +117,11 @@ export default {
       try {
         await api.removeClient(id)
         dispatch(FETCH_CLIENTS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl removed a client'
+        })
       } catch (e) {
         console.error(e)
         Notification.open({
@@ -144,6 +159,11 @@ export default {
       commit('setProviders', { loading: true })
       return api.createProvider(payload).then((data) => {
         dispatch(FETCH_PROVIDERS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl created a provider'
+        })
       }).catch((err) => {
         Notification.open({
           position: 'is-bottom-right',
@@ -159,6 +179,11 @@ export default {
       commit('setProviders', { loading: false })
       api.removeProvider(payload).then((data) => {
         dispatch(FETCH_PROVIDERS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl removed a provider'
+        })
       }).catch((err) => {
         Notification.open({
           position: 'is-bottom-right',
@@ -174,6 +199,11 @@ export default {
       commit('setProviders', { loading: false })
       api.renameProvider(id, name).then((data) => {
         dispatch(FETCH_PROVIDERS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl renamed a provider'
+        })
       }).catch((err) => {
         Notification.open({
           position: 'is-bottom-right',

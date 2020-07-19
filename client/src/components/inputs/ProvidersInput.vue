@@ -8,7 +8,7 @@
     </div>
 
     <div class="providers-input__bottom">
-      <div  v-for="provider in providers" :key="provider._id">
+      <div v-for="provider in providers" :key="provider._id">
         <div class="row" v-if="isEditing(provider._id)">
           <b-input v-model="editingValues[provider._id]"></b-input>
           <div class="row__controls">
@@ -63,7 +63,8 @@
       },
 
       create () {
-        this.$emit('create', this.nameToAdd)
+        this.$emit('create', this.nameToAdd.trim())
+        this.nameToAdd = ''
       },
 
       remove (id) {
@@ -103,7 +104,8 @@
   }
 
   .providers-input__bottom {
-
+    max-height: 300px;
+    overflow-y: auto;
   }
 
   .row {

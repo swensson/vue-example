@@ -8,10 +8,12 @@
     </button>
 
     <b-modal
+      v-if="isComponentModalActive"
       aria-modal
       trap-focus
       has-modal-card
       aria-role="dialog"
+      @close="closeModal"
       :active.sync="isComponentModalActive"
       :destroy-on-hide="false"
     >
@@ -21,7 +23,7 @@
         :client="client"
         :providers="providers"
         @submit="createNewClient"
-        @close="isComponentModalActive = false"
+        @close="closeModal"
         @createProvider="createProvider"
         @removeProvider="removeProvider"
         @renameProvider="renameProvider"
@@ -32,7 +34,7 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
-  import { FETCH_PROVIDERS, CREATE_CLIENT, GET_PROVIDERS, CREATE_PROVIDER, REMOVE_PROVIDER, RENAME_PROVIDER } from '@/store/modules/clients'
+  import { FETCH_PROVIDERS, CREATE_CLIENT, GET_PROVIDERS, CREATE_PROVIDER, FETCH_CLIENTS, REMOVE_PROVIDER, RENAME_PROVIDER } from '@/store/modules/clients'
   import ClientForm from '@/components/molecules/ClientForm'
 
   export default {
@@ -52,6 +54,7 @@
 
     methods: {
       ...mapActions({
+        _fetchClients: FETCH_CLIENTS,
         _fetchProviders: FETCH_PROVIDERS,
         _createClient: CREATE_CLIENT,
         _createProvider: CREATE_PROVIDER,
@@ -72,6 +75,10 @@
       renameProvider ({ id, name }) {
         this._renameProvider({ id, name })
       },
+      closeModal () {
+        this.isComponentModalActive = false
+        this._fetchClients()
+      }
     },
 
     data() {

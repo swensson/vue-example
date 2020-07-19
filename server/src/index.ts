@@ -42,7 +42,7 @@ app.get('/health', (req, res) => {
 /**
  * Use docs in development mode
  */
-if (process.env.NODE_ENV === 'devleopment') {
+if (process.env.NODE_ENV === 'development') {
   app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 }
 

@@ -6,7 +6,7 @@
     "title": "Vue REST application example"
   },
   "host": "localhost:8050",
-  "basePath": "/",
+  "basePath": "/api/v1",
   "schemes": [
     "http"
   ],
@@ -41,14 +41,225 @@
       },
       "get": {
         "summary": "Get all clients",
-        "description": "development only",
         "operationId": "getClients",
         "consumes": [
           "application/json"
         ],
         "produces": [
           "application/json"
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/clients/{clientId}": {
+      "get": {
+        "summary": "Get one cliennt",
+        "operationId": "getClient",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clientId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the client to look for"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a client",
+        "operationId": "updateClient",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clientId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the client to look for"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Client object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a cliennt",
+        "operationId": "deleteClient",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clientId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the client to look for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+    },
+    "/providers": {
+      "post": {
+        "summary": "Create a new provider",
+        "operationId": "addProvider",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Client object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Provider"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all providers",
+        "operationId": "getProviders",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/providers/{providerId}": {
+      "patch": {
+        "summary": "Update a provider",
+        "operationId": "updateProvider",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "providerId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the client to look for"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Client object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Provider"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a cliennt",
+        "operationId": "deleteProvider",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "providerId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the provider to look for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+    },
+    "/clients/{clientId}/providers/{providerId}": {
+      "post": {
+        "summary": "Attach provider to client",
+        "operationId": "attachProvider",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clientId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the cliennt to attach provider to"
+          },
+          {
+            "in": "path",
+            "name": "providerId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the provider to attach to the client"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Detach provider from client",
+        "operationId": "detachProvider",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clientId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the client to detach provider from"
+          },
+          {
+            "in": "path",
+            "name": "providerId",
+            "type": "string",
+            "required": true,
+            "description": "An ID of the provider to detach from the client"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },
@@ -63,6 +274,14 @@
           "type": "string"
         },
         "email": {
+          "type": "string"
+        }
+      }
+    },
+    "Provider": {
+      "type": "object",
+      "properties": {
+        "name": {
           "type": "string"
         }
       }

@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "7928032c-1be1-40bf-8719-5afb789e7f88",
+		"name": "Vue Example Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Client",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Alex\",\n    \"phone\": \"123\",\n    \"email\": \"test+1@email.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/clients",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Clients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/clients",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/clients/5f114f21588b047243efe828",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients",
+						"5f114f21588b047243efe828"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a client",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\": \"test3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/clients/5f114c2213a37e704a2bb31e",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients",
+						"5f114c2213a37e704a2bb31e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Client",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\": \"test3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/clients/5f114c2213a37e704a2bb31e",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients",
+						"5f114c2213a37e704a2bb31e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Provider",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"provider1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/providers",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"providers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Providers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"provider1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/providers",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"providers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a provider",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"provider2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/providers/5f114f6e413e4f7249075a5d",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"providers",
+						"5f114f6e413e4f7249075a5d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a provider",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"provider2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/providers/5f114f6e413e4f7249075a5d",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"providers",
+						"5f114f6e413e4f7249075a5d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attach Provider to the Client",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"provider1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/clients/5f114f21588b047243efe828/providers/5f114f6e413e4f7249075a5d",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients",
+						"5f114f21588b047243efe828",
+						"providers",
+						"5f114f6e413e4f7249075a5d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detach Provider from the Client",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"provider1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/clients/5f114f21588b047243efe828/providers/5f114f6e413e4f7249075a5d",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"clients",
+						"5f114f21588b047243efe828",
+						"providers",
+						"5f114f6e413e4f7249075a5d"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cdcbdcb8-54e4-4590-a2f5-8b0fb4800e65",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cdc2f082-8721-4e98-a76a-9f5ef3d4d95f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "06157ee1-d2f3-43b8-b7e4-773a64908671",
+			"key": "host",
+			"value": "localhost:8050/api/v1"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

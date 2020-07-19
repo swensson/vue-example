@@ -10,10 +10,12 @@ const router = express.Router()
  * Create a provider
  */
 router.post('/', [
-  body('name').exists().isString(),
+  body('name').exists().isString().isLength({ min: 1 }),
 ], routeHandler(async (req, res) => {
   /* Handle input data validation errors */
   const errors = validationResult(req)
+
+  console.log(errors, errors.isEmpty())
 
   if (!errors.isEmpty()) {
     throw new HttpError(422, errors.array())
@@ -59,7 +61,7 @@ router.delete('/:providerId', routeHandler(async (req, res) => {
   if (!provider) {
     throw new HttpError(404)
   }
-  
+
   await providers.delete(req.params.providerId)
 
   res.sendStatus(200)

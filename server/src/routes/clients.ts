@@ -76,7 +76,7 @@ router.patch('/:clientId', [
   if (req.body.email) {
     const id = await clients.getIdByEmail(req.body.email)
 
-    if (id !== req.params.clientId) {
+    if (id !== null && id !== req.params.clientId) {
       throw new HttpError(422, ['Email in use'])
     }
   }

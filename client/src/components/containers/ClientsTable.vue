@@ -30,7 +30,6 @@
     </b-table>
 
     <b-modal
-      v-if="editModalVisible"
       aria-modal
       trap-focus
       has-modal-card
@@ -40,6 +39,7 @@
       :destroy-on-hide="false"
     >
       <client-form
+        v-if="editModalVisible"
         title="Edit Client"
         buttonLabel="Save"
         :client="client"

@@ -5,4 +5,6 @@ export default mongoose.model('Provider', new mongoose.Schema({
     type: String,
     required: true,
   },
-}, { timestamps: true }))
+}, {
+  timestamps: true
+}))

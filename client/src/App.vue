@@ -8,9 +8,7 @@
 <script>
   import MainHeader from '@/components/molecules/MainHeader'
 
-  export default {
-    components: { MainHeader }
-  }
+  export default { components: { MainHeader } }
 </script>
 
 <style>

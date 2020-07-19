@@ -1,19 +1,27 @@
-import { NotificationProgrammatic as Notification } from 'buefy'
 import api from '@/libs/api'
+import { NotificationProgrammatic as Notification } from 'buefy'
 
 const domain = `clients`
 
-export const FETCH_CLIENTS = `${domain}/FETCH_CLIENTS`
+/* Actions */
+
+export const FETCH_CLIENTS   = `${domain}/FETCH_CLIENTS`
 export const FETCH_PROVIDERS = `${domain}/FETCH_PROVIDERS`
+
 export const CREATE_PROVIDER = `${domain}/CREATE_PROVIDER`
 export const REMOVE_PROVIDER = `${domain}/REMOVE_PROVIDER`
 export const RENAME_PROVIDER = `${domain}/RENAME_PROVIDER`
-export const CREATE_CLIENT = `${domain}/CREATE_CLIENT`
-export const REMOVE_CLIENT = `${domain}/REMOVE_CLIENT`
-export const UPDATE_CLIENT = `${domain}/UPDATE_CLIENT`
+
+export const CREATE_CLIENT   = `${domain}/CREATE_CLIENT`
+export const REMOVE_CLIENT   = `${domain}/REMOVE_CLIENT`
+export const UPDATE_CLIENT   = `${domain}/UPDATE_CLIENT`
+
+/* Getters */
 
 export const GET_CLIENTS = `${domain}/GET_CLIENTS`
 export const GET_PROVIDERS = `${domain}/GET_PROVIDERS`
+
+/* Store */
 
 export default {
   state: {
@@ -22,7 +30,7 @@ export default {
   },
 
   getters: {
-    [GET_CLIENTS]: (state) => state.clients,
+    [GET_CLIENTS]:   (state) => state.clients,
     [GET_PROVIDERS]: (state) => state.providers,
   },
 
@@ -37,13 +45,16 @@ export default {
 
   actions: {
     /**
-     * Fetch Clients action
+     * Fetch clients action
      */
-    [FETCH_CLIENTS]: ({ commit }, payload) => {
+    [FETCH_CLIENTS]: async ({ commit }, payload) => {
       commit('setClients', { loading: true })
-      api.getClients().then((clients) => {
-        commit('setClients', { loading: false, value: clients })
-      }).catch((err) => {
+
+      try {
+        const clients = await api.getClients()
+          commit('setClients', { loading: false, value: clients })
+      } catch (err) {
+        console.error(err)
         Notification.open({
           position: 'is-bottom-right',
           type: 'is-danger',
@@ -51,7 +62,7 @@ export default {
         })
 
         commit('setClients', { loading: false })
-      })
+      }
     },
 
     /**
@@ -62,9 +73,9 @@ export default {
       try {
         const clientId = await api.createClient({ name, phone, email })
 
-        await Promise.all(providers.map((providerId) => {
-          return api.attachProvider(clientId, providerId)
-        }))
+        await Promise.all(providers.map((providerId) =>
+          api.attachProvider(clientId, providerId)
+        ))
 
         dispatch(FETCH_CLIENTS)
 
@@ -85,7 +96,7 @@ export default {
     },
 
     /**
-     *
+     * Update client action
      */
     [UPDATE_CLIENT]: async ({ commit, dispatch }, { id, body }) => {
       commit('setClients', { loading: true })
@@ -137,11 +148,13 @@ export default {
     /**
      * Providers fetch action
      */
-    [FETCH_PROVIDERS]: ({ commit }, payload) => {
+    [FETCH_PROVIDERS]: async ({ commit }, payload) => {
       commit('setProviders', { loading: true })
-      return api.getProviders().then((providers) => {
+      try {
+        const providers = await api.getProviders()
         commit('setProviders', { loading: false, value: providers })
-      }).catch((err) => {
+      } catch (err) {
+        console.error(err)
         Notification.open({
           position: 'is-bottom-right',
           type: 'is-danger',
@@ -149,22 +162,25 @@ export default {
         })
 
         commit('setProviders', { loading: false })
-      })
+      }
     },
 
     /**
-     * Providers management actions
+     * Create a provider
      */
-    [CREATE_PROVIDER]: ({ commit, dispatch }, payload) => {
+    [CREATE_PROVIDER]: async ({ commit, dispatch }, payload) => {
       commit('setProviders', { loading: true })
-      return api.createProvider(payload).then((data) => {
+      try {
+        await api.createProvider(payload)
+
         dispatch(FETCH_PROVIDERS)
 
         Notification.open({
           position: 'is-bottom-right',
           message: 'Successfulyl created a provider'
         })
-      }).catch((err) => {
+      } catch (err) {
+        console.error(err)
         Notification.open({
           position: 'is-bottom-right',
           type: 'is-danger',
@@ -172,39 +188,26 @@ export default {
         })
 
         commit('setProviders', { loading: false })
-      })
+      }
     },
 
-    [REMOVE_PROVIDER]: ({ commit, dispatch }, payload) => {
+    /**
+     * Renames a provider and creates a notification
+     */
+    [RENAME_PROVIDER]: async ({ commit, dispatch }, { id, name }) => {
       commit('setProviders', { loading: false })
-      api.removeProvider(payload).then((data) => {
-        dispatch(FETCH_PROVIDERS)
 
-        Notification.open({
-          position: 'is-bottom-right',
-          message: 'Successfulyl removed a provider'
-        })
-      }).catch((err) => {
-        Notification.open({
-          position: 'is-bottom-right',
-          type: 'is-danger',
-          message: 'Failed removing provider'
-        })
+      try {
+        await api.renameProvider(id, name)
 
-        commit('setProviders', { loading: false })
-      })
-    },
-
-    [RENAME_PROVIDER]: ({ commit, dispatch }, { id, name }) => {
-      commit('setProviders', { loading: false })
-      api.renameProvider(id, name).then((data) => {
         dispatch(FETCH_PROVIDERS)
 
         Notification.open({
           position: 'is-bottom-right',
           message: 'Successfulyl renamed a provider'
         })
-      }).catch((err) => {
+      } catch (err) {
+        console.error(err)
         Notification.open({
           position: 'is-bottom-right',
           type: 'is-danger',
@@ -212,7 +215,33 @@ export default {
         })
 
         commit('setProviders', { loading: false })
-      })
+      }
+    },
+
+    /**
+     * Removes provider and creates a notification
+     */
+    [REMOVE_PROVIDER]: async ({ commit, dispatch }, payload) => {
+      commit('setProviders', { loading: false })
+      try {
+        await api.removeProvider(payload)
+
+        dispatch(FETCH_PROVIDERS)
+
+        Notification.open({
+          position: 'is-bottom-right',
+          message: 'Successfulyl removed a provider'
+        })
+      } catch (err) {
+        console.error(err)
+        Notification.open({
+          position: 'is-bottom-right',
+          type: 'is-danger',
+          message: 'Failed removing provider'
+        })
+
+        commit('setProviders', { loading: false })
+      }
     },
   },
 }

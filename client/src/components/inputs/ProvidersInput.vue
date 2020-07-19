@@ -2,6 +2,7 @@
   <div class="providers-input">
     <div class="providers-input__top">
       <b-input v-model="nameToAdd"></b-input>
+
       <b-button @click="create" class="providers-input__add">
         Add Provider
       </b-button>
@@ -24,6 +25,7 @@
           </div>
         </div>
       </div>
+
       <b-loading :is-full-page="false" :active.sync="loading"></b-loading>
     </div>
   </div>
@@ -38,14 +40,14 @@
     ],
 
     data () {
-      return {
-        nameToAdd: '',
-        editing: [],
-        editingValues: {}
-      }
+      return { nameToAdd: '', editing: [], editingValues: {} }
     },
 
     methods: {
+      /**
+       * Provider togglement management
+       */
+
       isChecked (id) {
         return this.value.includes(id)
       },
@@ -62,6 +64,10 @@
         this.$emit('input', this.value)
       },
 
+      /**
+       * Create/remove provider functionality
+       */
+
       create () {
         this.$emit('create', this.nameToAdd.trim())
         this.nameToAdd = ''
@@ -71,7 +77,10 @@
         this.$emit('remove', id)
       },
 
-      /* Edit stuff */
+      /**
+       * Edit providers stuff
+       */
+
       edit (id) {
         this.editing.push(id)
         this.editingValues[id] = this.providers.filter(({ _id }) => _id === id).pop().name

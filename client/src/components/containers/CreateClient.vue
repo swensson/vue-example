@@ -8,7 +8,6 @@
     </button>
 
     <b-modal
-      v-if="isComponentModalActive"
       aria-modal
       trap-focus
       has-modal-card
@@ -62,21 +61,34 @@
         _renameProvider: RENAME_PROVIDER,
       }),
 
+      /**
+       * Connect clients and providers management
+       * actions to store
+       */
       createNewClient ({ name, email, phone, providers }) {
-        this._createClient({ name, email, phone, providers })
         this.isComponentModalActive = false
+        this.client = { name: '', email: '', phone: '', providers: [] }
+        this._createClient({ name, email, phone, providers })
       },
+
       createProvider (name) {
         this._createProvider({ name })
       },
+
       removeProvider (id) {
         this._removeProvider(id)
       },
+
       renameProvider ({ id, name }) {
         this._renameProvider({ id, name })
       },
+      /**
+       * Fetch clients after closing modal (since providers may change)
+       * and clean the form
+       */
       closeModal () {
         this.isComponentModalActive = false
+        this.client = { name: '', email: '', phone: '', providers: [] }
         this._fetchClients()
       }
     },

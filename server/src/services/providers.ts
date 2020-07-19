@@ -6,18 +6,14 @@ export default {
    * Create a provider
    */
   create: async (name: string) => {
-    const provider = await Provider.create({ name })
-
-    return provider._id
+    return Provider.create({ name }).then(({ _id }) => _id)
   },
 
   /**
    * Just retrieve all providers
    */
   all: async () => {
-    const providers = await Provider.find({}).exec()
-
-    return providers
+    return await Provider.find({}).exec()
   },
 
   /**

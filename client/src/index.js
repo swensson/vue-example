@@ -14,18 +14,18 @@ Vue.use(Buefy)
 Vue.use(Vuex)
 Vue.use(VueRouter)
 
-const routes = [
-  { path: '/', component: ClientsPage },
-]
-
-const router = new VueRouter({ mode: 'history', routes })
+const router = new VueRouter({
+  mode: 'history', routes: [
+    { path: '/', component: ClientsPage },
+  ],
+})
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
+    store,
     router,
     el: '#app',
-    components: { App, ClientsPage },
     render: h => h(App),
-    store: store,
+    components: { App, ClientsPage },
   })
 })

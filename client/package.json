@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production npx webpack",
+    "start": ". ./.env && NODE_ENV=production npx webpack && npx static-server ./dist --port $CLIENT_PORT",
     "dev": "NODE_ENV=development npx webpack-dev-server"
   },
   "author": "mcfinley",
@@ -25,6 +25,7 @@
     "css-loader": "^3.6.0",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.19",
+    "static-server": "^2.2.1",
     "style-loader": "^1.2.1",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",

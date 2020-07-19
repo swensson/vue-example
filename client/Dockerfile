@@ -3,11 +3,11 @@ FROM node:latest
 WORKDIR /app
 
 COPY package.json ./
-COPY tsconfig.json ./
-COPY swagger.json ./
+COPY webpack.config.js ./
+COPY .babelrc ./
 COPY src ./src
 
 RUN npm install
 
-EXPOSE $SERVER_PORT
+EXPOSE $CLIENT_PORT
 CMD ["npm", "start"]
